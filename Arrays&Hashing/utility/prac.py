@@ -1,29 +1,39 @@
 import heapq
 
 class Solution:
-    def utilityFunc(self,nums:list[int],k:int)->list[int]:
 
-        map = {}
 
+    def prefix(self,nums:list[int],i:int)->int:
+            prod = 1
+            for k in range(len(nums)):
+                if k!=i:
+                    prod*=nums[k]
+
+            return prod
+    
+    def utilityFunc(self,nums:list[int])->list[int]:
+
+        ans = []
+        
         for i in range(len(nums)):
-            map[nums[i]] = map.get(nums[i],0)+1
+            if i>0:
+                ans.append(self.prefix(nums,i))
 
-        print(map)
+            if i==0:
+                prod = 1
+                for i in range(len(nums)):
+                    if i!=0:
+                        prod*=nums[i]
+                ans.append(prod)
 
-        heap = []
+       
+        
+        return ans
 
-        for key, values in map.items():
-            heapq.heappush(heap,(values,key))
+                        
+                
 
-            if len(heap)>k:
-                heapq.heappop(heap)
-
-        res  = []
-
-        for num in heap:
-            res.append(heapq.heappop(heap)[1])
-
-        return res
+    
        
 
 
@@ -36,4 +46,4 @@ class Solution:
 
 sol = Solution()
 
-sol.utilityFunc([1,1,1,2,2,3],2)
+print(sol.utilityFunc([1,2,4,6]))
